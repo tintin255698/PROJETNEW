@@ -26,10 +26,11 @@ class PortefeuilleRepository extends ServiceEntityRepository
     public function findByExampleField($user)
     {
         return $this->createQueryBuilder('p')
-            ->select('p, x.prix, x.quantite, x.produits, u' )
+            ->select('x.prix, x.quantite, x.produits, u' )
             ->join('p.placements', 'x')
             ->join('p.user', 'u')
-            ->setParameter('u', '$user')
+            ->where('p.user= :user_id')
+            ->setParameter('user_id', $user)
             ->getQuery()
             ->getResult()
         ;

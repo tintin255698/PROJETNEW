@@ -38,6 +38,12 @@ class Placement
      */
     private $portefeuille;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="placements")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,6 +93,18 @@ class Placement
     public function setPortefeuille(?Portefeuille $portefeuille): self
     {
         $this->portefeuille = $portefeuille;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

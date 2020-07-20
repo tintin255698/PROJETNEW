@@ -52,11 +52,9 @@ class PortefeuilleController extends AbstractController
 
         $user = $this->getUser()->getId();
 
-        $repo = $this->getDoctrine()->getRepository(Portefeuille::class);
-        $pla = $repo->findby( ['user' => $user]);
+        $repo = $this->getDoctrine()->getRepository(Portefeuille::class)->findByExampleField($user);
 
-
-        dump($pla);
+        dump($repo);
 
 
         return $this->render('portefeuille\show.html.twig', array(

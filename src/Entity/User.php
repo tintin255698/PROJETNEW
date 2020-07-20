@@ -53,9 +53,15 @@ class User implements UserInterface
      */
     private $portefeuilles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Placement::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $placements;
+
     public function __construct()
     {
         $this->portefeuilles = new ArrayCollection();
+        $this->placements = new ArrayCollection();
     }
 
 
@@ -186,6 +192,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($portefeuille->getUser() === $this) {
                 $portefeuille->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Placement[]
+     */
+    public function getPlacements(): Collection
+    {
+        return $this->placements;
+    }
+
+    public function addPlacement(Placement $placement): self
+    {
+        if (!$this->placements->contains($placement)) {
+            $this->placements[] = $placement;
+            $placement->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlacement(Placement $placement): self
+    {
+        if ($this->placements->contains($placement)) {
+            $this->placements->removeElement($placement);
+            // set the owning side to null (unless already changed)
+            if ($placement->getUser() === $this) {
+                $placement->setUser(null);
             }
         }
 
