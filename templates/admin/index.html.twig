@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-4 mb-4">Liste des utilisateurs</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Prenom</th>
+            <th>Nom</th>
+            <th>Modifier</th>
+            <th>Supprimer</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {% for plas in pla %}
+            <td>{{ plas.email}}</td>
+            <td>
+                {% for role in plas.roles %}
+                    {% if role == "ROLE_USER" %}
+                        Utilisateur
+                    {% elseif role == "ROLE_ADMIN"%}
+                        Administrateur
+                    {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{ plas.prenom }}</td>
+            <td>{{ plas.nom }}</td>
+            <td><a href="{{ path('admin_modifier', {'id':plas.id}) }}" class="btn btn-dark">Modifier</a></td>
+            {%  else %}
+        <tr>
+            <td colspan="5">Il n'y a pas d'utilisateurs inscrits</td>
+
+
+            {% endfor %}
+        </tr>
+
+        </tbody>
+    </table>
+    </div>
+
+
+
+
+
+{% endblock %}

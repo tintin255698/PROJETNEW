@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+
+{% form_theme form _self %}
+
+
+{% block body %}
+    <div class="container">
+        <h3 class="mt-5 mb-4">Creer un nouveau portefeuille</h3>
+
+        {{ form_start(form) }}
+
+        {{ form_widget(form)}}
+
+        <button type="submit" class="btn btn-primary">Creer votre nouveau portefeuille</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block _portefeuille_placements_widget %}
+    <p>Ajoutez ici vos cryptomonnaies</p>
+    {{ form_widget(form) }}
+    <div class="form-group"><button type="button" id="add-placement" class="btn btn-primary">Ajouter votre cryptomonnaie</button></div>
+{% endblock %}
+
+{% block _portefeuille_placements_entry_widget %}
+    <div class="form-group" id="block_{{ id }}">
+        <div class="row">
+            <div class="col-10">
+                <div class="col">
+                    {{ form_label(form.produits) }}
+                    {{ form_widget(form.produits) }}
+                </div>
+                <div class="col">
+                    {{ form_label(form.quantite) }}
+                    {{ form_widget(form.quantite) }}
+                </div>
+                <div class="col">
+                    {{ form_label(form.prix) }}
+                    {{ form_widget(form.prix) }}
+                </div>
+            </div>
+
+            <div class="col-2">
+                <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn btn-dark">X</button>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock  %}
+
+
+{% block javascripts %}
+    <script>
+        $('#add-placement').click(function () {
+            const index = $('#portefeuille_placements div.form-group').length;
+            const tmpl = $('#portefeuille_placements').data('prototype').replace(/__name__/g, index);
+            $('#portefeuille_placements').append(tmpl)
+            HandleDeleteButtons();
+        })
+
+
+        function HandleDeleteButtons(){
+            $('button[data-action="delete"]').click(function () {
+                const target = this.dataset.target;
+                console.log(target);
+                $(target).remove();
+            })
+        }
+
+
+    </script>
+
+
+{% endblock %}
