@@ -56,7 +56,6 @@ class PortefeuilleController extends AbstractController
         $pla = $repo->findby( ['user' => $user]);
 
 
-
         dump($pla);
 
 
